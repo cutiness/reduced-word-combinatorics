@@ -649,10 +649,12 @@ int main(void){
           }
           else{
             printf("%s%c%s\n", "  The character: ", temp_char, " is not allowed in a file name.\n");
+            delete[] file_name;
             exit(0);
           }
           if(i == 50){
             printf("  The name you entered is longer than 50 characters.\n");
+            delete[] file_name;
             exit(0);
           }
         }
@@ -667,6 +669,7 @@ int main(void){
         }
         if(res.size() % 5 != 0) fprintf(ifp, "%c", '\n');
         printf("\n%s%s\n", "  The result has been successfully written to the file: ", file_name);
+        delete[] file_name;
       }    
     }
     
