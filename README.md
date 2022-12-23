@@ -1,5 +1,6 @@
 # reduced-word-combinatorics
 
+![Screenshot](images/opening-intro.png)
 
 ## Description and Basic Terminology
 
