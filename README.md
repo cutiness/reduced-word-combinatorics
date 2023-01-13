@@ -4,7 +4,7 @@
 
 ## Description and Basic Terminology
 
-This is a terminal based program to do various comparisions on permutations (defined on symmetric groups) and also to find the set of all reduced word representing a permutation.
+This is a terminal based program to do various comparisions on permutations (defined on symmetric groups) and also to find the set of all reduced word representing a permutation. A word is basically a notation for transpositions, and we try to find the list of all words that do this with least elements possible.
 
 If what you read sound chinese to you, consider taking a look at the following articles:
 
@@ -14,11 +14,15 @@ If what you read sound chinese to you, consider taking a look at the following a
 
 3. [A. Garsia, The saga of reduced factorizations of elements of the symmetric group](https://www.semanticscholar.org/paper/The-Saga-of-Reduced-Factorizations-of-Elements-of-Garsia/70ca398687634c4646921e28429728877f67a8a8)
 
+4. [O. Coşkun, M. Taşkın ,“Tower tableaux”, Journal of Combinatorial Theory Series A, 120, 4, 843-871, 2013.](https://www.researchgate.net/publication/230795137_Tower_Tableaux)
+
 ## Requirements
 
 You need a [terminal emulator](https://en.wikipedia.org/wiki/Terminal_emulator) of your choice and any [C/C++ compiler](https://en.wikibooks.org/wiki/C%2B%2B_Programming/Compiler/Where_to_get). Compile directly from source code, and then run the executable output.
 
 If you are using the `GNU Project Compiler` in Linux: `g++ reduced-word.cpp -o output_name` , then `./output_name`.
+
+The main file is `reduced-word.cpp` , other helper files should be in the same directory while compiling the code. Preferrably, you may clone this repository to a folder, which should make things easier.
 
 ## License
 
