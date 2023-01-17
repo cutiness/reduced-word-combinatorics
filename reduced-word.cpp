@@ -22,12 +22,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     For a more in depth view, please look at "functions.cpp"
 */
 
-//#include <cstdio>
-//#include <iostream>
-//#include <vector>
-//#include <algorithm>
-#include "functions.cpp" //everything in included here
-//#include "tower-diagram.cpp"
+#include "functions.h"
+#include "tower-diagram.h"
+using namespace std;
 
 int main(void){
   
@@ -159,6 +156,7 @@ int main(void){
       //auto stop = std::chrono::high_resolution_clock::now();
       //auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);     
       //cout << duration.count() << endl;
+      
       printf("%s", "  Do you wish to output the result to [t]erminal, or a [f]ile? [t-f] : ");
       output_place = getc(stdin); terminating_char = getc(stdin);
       if(terminating_char != '\n' || (output_place != 'T' && output_place != 't' && output_place != 'f' && output_place != 'F')){

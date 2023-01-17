@@ -1,9 +1,24 @@
-#include <cstdio>
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include "tower-diagram.cpp"
-//#include <chrono>
+/*
+The GPLv3 License (GPLv3)
+
+Copyright (c) 2023 cutiness
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#include "functions.h"
+#include "tower-diagram.h"
 using namespace std;
 
 #define MAX_COLUMN 10
@@ -91,7 +106,7 @@ void print_word(vector<int> word){
 }
 
 //does the some thing as print_word , but for tower_decompositions
-void print_decomposition(vector<vector<int>> word_decomposed, int num = 5){
+void print_decomposition(vector<vector<int>> word_decomposed, int num){
   for(int i = 0; i < word_decomposed.size(); i++){
     for(int j = 0; j < word_decomposed[i].size(); j++){
       cout << word_decomposed[i][j];
@@ -189,7 +204,7 @@ bool check_relation2(vector<int> word1, vector<int> word2){
 }
 
 //this algorithm uses the relation1 to create a natural basic word from a given reduced word
-vector<vector<int>>selection_sort(vector<vector<int>> word_decomposed, vector<int> unwanted_indexes={-1}){
+vector<vector<int>>selection_sort(vector<vector<int>> word_decomposed, vector<int> unwanted_indexes){
   //the extreme case is when the word_decomposed has size 1 , we handle it outside the function
   //terminating condition , if fin(b_s) > in(b_s+1)
   for(int i = 0; i < word_decomposed.size() - 1; i++){
