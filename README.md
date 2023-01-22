@@ -22,7 +22,7 @@ You need a [terminal emulator](https://en.wikipedia.org/wiki/Terminal_emulator) 
 
 Preferrably, you need to have the `make` utility installed on your system. In `MacOS or Linux` you may compile everything with `make all`, there is no need for root privileges. 
 
-By default the `Makefile` uses `GNU Project Compiler` if you are using something else, what you need to do is, create object files for `tower-diagram.cpp` and `functions.cpp`, after that you need to compile the driver code `reduced-word.cpp` together with those two helpers. With `gcc` it would look like the following:
+By default the `Makefile` uses `GNU Project Compiler` if you are using something else, what you need to do is, create object files for `tower-diagram.cpp` and `functions.cpp`. After that you need to compile the driver code `reduced-word.cpp` together with those two helpers. With `gcc` it would look like the following:
 
 `g++ tower-digram.cpp` (by default the ouput file name is tower-diagram.o)
 
@@ -32,7 +32,7 @@ By default the `Makefile` uses `GNU Project Compiler` if you are using something
 
 `./output_name`
 
-There is already a `Makefile` to automate this process, but if you are on `Windows` and using `MinGW` or a derivative, you may need to do it manually. Many IDE's alho have support for `Makefile` file structure, so you may also use them.
+There is already a `Makefile` to automate this process, but if you are on `Windows` and using `MinGW` or a derivative, you may need to do it manually. Many IDE's also have support for `Makefile` file structure, so you may also use them.
 
 After compiling, you may clean all the outputs with `make clean`, and acsess the program by coming to the directory you compiled and writing `./output_name`.
 
