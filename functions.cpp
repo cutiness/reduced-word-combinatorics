@@ -287,13 +287,16 @@ vector<vector<int>>insertion_sort(vector<vector<int>> word_decomposed){
     for(int i = i_max; i >= 1; i--){
       word_decomposed.insert(word_decomposed.begin() + i - 1, word_decomposed[i]);
       word_decomposed.erase(word_decomposed.begin() + i + 1); //deleting the old element after swapping
+
+      //in case a new tower is formed, we update the decomposition
+      word_decomposed = update_decomposition(word_decomposed);
       
       bool continue_loop = true;
-      for(int i = 0; i < word_decomposed.size() - 1; i++){
-        if(word_decomposed[i].back() <= word_decomposed[i+1].front()) break;
-        //if we did not exit the loop up to last 'i' value, then word_decomposed is indeed
+      for(int j = 0; j < word_decomposed.size() - 1; j++){
+        if(word_decomposed[j].back() <= word_decomposed[j+1].front()) break;
+        //if we did not exit the loop up to last 'j' value, then word_decomposed is indeed
         //a natural basic word, so we just return it
-        if(i == word_decomposed.size() - 2) continue_loop = false;
+        if(j == word_decomposed.size() - 2) continue_loop = false;
       }
       //we exit the loop if a natural basic word is obtained       
       if(!continue_loop) break;
