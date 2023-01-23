@@ -20,9 +20,21 @@ If what you read sound chinese to you, consider taking a look at the following a
 
 You need a [terminal emulator](https://en.wikipedia.org/wiki/Terminal_emulator) of your choice and any [C/C++ compiler](https://en.wikibooks.org/wiki/C%2B%2B_Programming/Compiler/Where_to_get). Compile directly from source code, and then run the executable output.
 
-If you are using the `GNU Project Compiler` in Linux: `g++ reduced-word.cpp -o output_name` , then `./output_name`.
+Preferrably, you need to have the `make` utility installed on your system. In `MacOS or Linux` you may compile everything with `make all`, there is no need for root privileges. 
 
-The main file is `reduced-word.cpp` , other helper files should be in the same directory while compiling the code. Preferrably, you may clone this repository to a folder, which should make things easier.
+By default the `Makefile` uses `GNU Project Compiler` if you are using something else, what you need to do is, create object files for `tower-diagram.cpp` and `functions.cpp`. After that you need to compile the driver code `reduced-word.cpp` together with those two helpers. With `gcc` it would look like the following:
+
+`g++ tower-digram.cpp` (by default the ouput file name is tower-diagram.o)
+
+`g++ functions.cpp` (by default the output file name is functions.o)
+
+`g++ reduced-word.cpp tower-diagram.o functions.o -o output_name`
+
+`./output_name`
+
+There is already a `Makefile` to automate this process, but if you are on `Windows` and using `MinGW` or a derivative, you may need to do it manually. Many IDE's also have support for `Makefile` file structure, so you may also use them.
+
+After compiling, you may clean all the outputs with `make clean`, and acsess the program by coming to the directory you compiled and writing `./output_name`.
 
 ## License
 
