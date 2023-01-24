@@ -243,14 +243,11 @@ vector<vector<int>>selection_sort(vector<vector<int>> word_decomposed, vector<in
     //swapping places of b_s and b_(s+1)
     word_decomposed.insert(word_decomposed.begin() + b_s_index, word_decomposed[b_s_index+1]);
     word_decomposed.erase(word_decomposed.begin() + b_s_index + 2); // removes the extra element in the old place
-    //int old_size = word_decomposed.size();
+    
     word_decomposed = update_decomposition(word_decomposed); //we update decomposition in case new towers are formed
-    //int new_size = word_decomposed.size();
-    // if no new towers are formed, we may call the function again with the same unwanted_indexes
-    // otherwise the function is called with the default value of unwanted_indexes , this is just for
-    // optimization purposes
-    //if(new_size == old_size) result = selection_sort(word_decomposed, unwanted_indexes);
-    //else result = selection_sort(word_decomposed);
+    
+    //whether new towers formed or not, we always reset unwanted_indexes
+    //after two elements changed places
     result = selection_sort(word_decomposed);
   }
   //if conditions are not satisfied , we no longer want to check this index
