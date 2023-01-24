@@ -217,7 +217,18 @@ vector<vector<int>>selection_sort(vector<vector<int>> word_decomposed, vector<in
   auto temp = word_decomposed;
   vector<vector<int>> result;  
   vector<int> initial_elements;
-  for(int i = 1; i < unwanted_indexes.size(); i++) temp.erase(temp.begin() + unwanted_indexes[i]);
+
+  //unwanted indexes should be removec starting from the biggest one
+  //otherwise there will be problems
+  if(unwanted_indexes.size() != 1){
+    auto temp_unwanted = unwanted_indexes;
+    while(temp_unwanted.size() != 1){ 
+      auto max_unwanted = max_element(temp_unwanted.begin() + 1, temp_unwanted.end());
+      temp.erase(temp.begin() + *max_unwanted);
+      temp_unwanted.erase(max_unwanted);
+    }
+  }
+
   for(int i = 0; i < temp.size() - 1; i++) initial_elements.push_back(temp[i].front()); // we simply omit the last tower
   int b_s, b_s_index; // smallest element and the index of the right most tower starting with b_s
   b_s = *min_element(initial_elements.begin(), initial_elements.end());
@@ -232,14 +243,15 @@ vector<vector<int>>selection_sort(vector<vector<int>> word_decomposed, vector<in
     //swapping places of b_s and b_(s+1)
     word_decomposed.insert(word_decomposed.begin() + b_s_index, word_decomposed[b_s_index+1]);
     word_decomposed.erase(word_decomposed.begin() + b_s_index + 2); // removes the extra element in the old place
-    int old_size = word_decomposed.size();
+    //int old_size = word_decomposed.size();
     word_decomposed = update_decomposition(word_decomposed); //we update decomposition in case new towers are formed
-    int new_size = word_decomposed.size();
+    //int new_size = word_decomposed.size();
     // if no new towers are formed, we may call the function again with the same unwanted_indexes
     // otherwise the function is called with the default value of unwanted_indexes , this is just for
     // optimization purposes
-    if(new_size == old_size) result = selection_sort(word_decomposed, unwanted_indexes);
-    else result = selection_sort(word_decomposed);
+    //if(new_size == old_size) result = selection_sort(word_decomposed, unwanted_indexes);
+    //else result = selection_sort(word_decomposed);
+    result = selection_sort(word_decomposed);
   }
   //if conditions are not satisfied , we no longer want to check this index
   else{
