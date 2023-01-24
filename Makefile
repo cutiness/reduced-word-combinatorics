@@ -15,13 +15,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-all: notifier rword
+all: notifier rword tdiag
 
 notifier:
 		@echo "You are compiling on: $(shell uname -s)"
 
 rword: functions.o tower-diagram.o
 		g++ functions.o tower-diagram.o reduced-word.cpp -o reduced-word
+
+tdiag: functions.o tower-diagram.o
+		g++ functions.o tower-diagram.o tower-diagram-calculate.cpp -o tower-diagram-calculate
 
 functions.o:
 		g++ -c functions.cpp
@@ -30,4 +33,4 @@ tower-diagram.o:
 		g++ -c tower-diagram.cpp
 
 clean:
-		rm -f *.o reduced-word	
+		rm -f *.o reduced-word tower-diagram-calculate
