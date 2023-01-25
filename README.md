@@ -100,7 +100,7 @@ All reduced words for [5, 4, 3, 2, 1] , 768 in total:
 1231243212 1231243121 1231241321 1231214321 1214342312 1214342132 1214324312 1214324132 1214321432 1213432312
 1213432132 1213423212 1213423121 1213421321 1213243212 1213243121 1213241321 1213214321 
 ```
-⬇️ The diagram for the word **5 45 345 2345 12345** , and the one on the right is the diagram for **56789 456 3456 23 4 1**
+⬇️ The diagram for the word **5 45 345 2345 12345** ,and the one on the right is the diagram for **56789 456 3456 23 4 1**
 
 <p float="left">
   <img src="https://raw.githubusercontent.com/cutiness/reduced-word-combinatorics/main/images/545345234512345.svg" width="375" />
@@ -115,7 +115,7 @@ All reduced words for [5, 4, 3, 2, 1] , 768 in total:
 </p>
 
 
-If what you read sound chinese to you, consider taking a look at the following articles:
+If what you read still sound chinese to you, consider taking a look at the following articles:
 
 1. [O. Coşkun, M. Taşkın, Sorting and generating reduced words, Arch. Math. 101 (2013), 427-436](http://dx.doi.org/10.1007/s00013-013-0571-7)
 
@@ -127,9 +127,14 @@ If what you read sound chinese to you, consider taking a look at the following a
 
 ## Requirements
 
-You need a [terminal emulator](https://en.wikipedia.org/wiki/Terminal_emulator) of your choice and any [C/C++ compiler](https://en.wikibooks.org/wiki/C%2B%2B_Programming/Compiler/Where_to_get). Compile directly from source code, and then run the executable output.
+ - A [terminal emulator](https://en.wikipedia.org/wiki/Terminal_emulator) of your choice 
+ - A [C/C++ compiler](https://en.wikibooks.org/wiki/C%2B%2B_Programming/Compiler/Where_to_get)
+ - [SAGE](https://github.com/sagemath/sage) , this is optional
 
-Preferrably, you need to have the `make` utility installed on your system. In `MacOS or Linux` you may compile everything with `make all`, there is no need for root privileges. 
+Compile directly from source code, and then run the executable output. Preferrably, you need to have the `make` utility installed on your system. In `MacOS or Linux` you may compile everything with the following, there is no need for root privileges:
+```
+$ make all
+```
 
 By default the `Makefile` uses `GNU Project Compiler` if you are using something else, what you need to do is, create object files for `tower-diagram.cpp` and `functions.cpp`. After that you need to compile the driver code `reduced-word.cpp` together with those two helpers. With `gcc` it would look like the following:
 ```
@@ -144,6 +149,44 @@ $ g++ reduced-word.cpp tower-diagram.o functions.o -o output_name
 There is already a `Makefile` to automate this process, but if you are on `Windows` and using `MinGW` or a derivative, you may need to do it manually. Many IDE's also have support for `Makefile` file structure, so you may also use them.
 
 After compiling, you may clean all the outputs with `make clean`, and acsess the program by coming to the directory you compiled and writing `./output_name`.
+
+## Obtain a tower diagram
+
+The `make` command above also compiles `tower-diagram-calculate.cpp`, if you compiled manually then repeat the same steps above this time for the file **tower-diagram-calculate.cpp** instead of **reduced-word.cpp** . After you run the executable output, you will be asked to provide a word. A representation of the tower will be printed to the terminal. In addition, the program will ask whether or not you'd like to store the data for the diagram in a seperate file. It will be named `given_word-vertex.txt` . In order to create an image out of this data, [SAGE](https://github.com/sagemath/sage) is required.
+
+There are a couple different ways to use `tower-diagram.sage` script file.
+
+1.  Through the SAGE interactive shell.
+```
+$ sage
+┌────────────────────────────────────────────────────────────────────┐
+│ SageMath version 9.8.beta5, Release Date: 2022-12-11               │
+│ Using Python 3.8.10. Type "help()" for help.                       │
+└────────────────────────────────────────────────────────────────────┘
+sage: load("tower-diagram.sage")
+.
+. (the script will ask for a vertex data file, follow the prompts)
+.
+```
+
+2.  You may also give `tower-diagram.sage` as an argument to `sage`, if you are going to use the script multiple times keep in mind that this method is slower, because every time this command is called SAGE loads necessary functions, which takes some time.
+```
+$ sage tower-diagram.sage
+  .
+  . (follow the prompt)
+  .
+```
+
+3.  If you have `sage` in your `PATH` , you may also run `tower-diagram.sage` just like a shell script. 
+
+For that, you should add `#!/usr/bin/env sage` to the beginning of `tower-diagram.sage` and turn it into an executable. These steps will change depending on your OS. On linux, you would do the following:
+```
+$ sed -i '1i #!/usr/bin/env sage' tower-diagram.sage
+$ chmod +x tower-diagram.sage
+$ ./tower-diagram.sage
+  .
+  . (follow the prompt)
+```
 
 ## License
 
