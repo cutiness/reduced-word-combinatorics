@@ -100,10 +100,20 @@ All reduced words for [5, 4, 3, 2, 1] , 768 in total:
 1231243212 1231243121 1231241321 1231214321 1214342312 1214342132 1214324312 1214324132 1214321432 1213432312
 1213432132 1213423212 1213423121 1213421321 1213243212 1213243121 1213241321 1213214321 
 ```
-The diagram for the word 5 45 345 2345 12345 ⬇️ , and the one on the right is the diagram for 56789 456 3456 23 4 1 ⬇️
+⬇️ The diagram for the word **5 45 345 2345 12345** , and the one on the right is the diagram for **56789 456 3456 23 4 1**
 
-![tower-545345234512345](images/545345234512345.svg)
-![tower-5678945634562341](images/5678945634562341.svg)
+<p float="left">
+  <img src="https://raw.githubusercontent.com/cutiness/reduced-word-combinatorics/main/images/545345234512345.svg" width="375" />
+  <img src="https://raw.githubusercontent.com/cutiness/reduced-word-combinatorics/main/images/5678945634562341.svg" width="375" />
+</p>
+
+⬇️ The diagram for the word **45 89 7 123** , and the one on the right is the diagram for **8 7 1 9 56  1 78** (which is not a reduced word)
+
+<p float="left">
+  <img src="https://raw.githubusercontent.com/cutiness/reduced-word-combinatorics/main/images/45897123.svg" width="400" />
+  <img src="https://raw.githubusercontent.com/cutiness/reduced-word-combinatorics/main/images/871956178.svg" width="400" />
+</p>
+
 
 If what you read sound chinese to you, consider taking a look at the following articles:
 
