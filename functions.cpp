@@ -68,7 +68,7 @@ vector<vector<int>> tower_decomposition(vector<int> word){
   temp.push_back(word[0]); // first element is always the starting point of the first tower
   for(int i = 1; i < word.size(); i++){
     if(word[i] == word[i-1] + 1) temp.push_back(word[i]);
-    
+
     else{
       word_decomposed.push_back(temp); //if the condition is not satisfied we end the tower
       temp.clear();
@@ -84,17 +84,21 @@ vector<vector<int>> tower_decomposition(vector<int> word){
 // at the first time that it finds an issue
 // note : if there is nothing wrong, the given decomposition will remain unchanged
 vector<vector<int>> update_decomposition(vector<vector<int>> word_decomposed){
+  vector<int> to_be_deleted;
   for(int i = 0; i < word_decomposed.size() - 1; i++){
     if(word_decomposed[i].back() + 1 == word_decomposed[i+1].front()){
       // concatenating tower 'i' and 'i+1'
       for(int j = 0; j < word_decomposed[i+1].size(); j++){
         word_decomposed[i].push_back(word_decomposed[i+1][j]);
       }
-      word_decomposed.erase(word_decomposed.begin() + i + 1); //deletes the 'i+1' tower after concatenation
-      word_decomposed = update_decomposition(word_decomposed); //function calls itself in case there are other parts with the smae issue
-      break;
+      // the next tower block will be skipped in the loop and will be deleted at the end
+      to_be_deleted.push_back(i+1); i++;
     }
   }
+
+  for(int i = to_be_deleted.size() - 1; i >= 0 ; i--)
+      word_decomposed.erase(word_decomposed.begin() + to_be_deleted[i]);
+
   return word_decomposed;
 }
 
@@ -160,13 +164,13 @@ bool check_lexiographic(vector<int> word1, vector<int> word2){
 
 bool check_relation2(vector<int> word1, vector<int> word2){
   if(!check_lexiographic(word1, word2)) return false; // relation2 implies lexiographic
-  auto word1_decomposed = tower_decomposition(word1); 
+  auto word1_decomposed = tower_decomposition(word1);
   auto word2_decomposed = tower_decomposition(word2);
   vector<int> b1; vector<int> b2; auto temp = word1_decomposed;
 
   for(int i = 0; i < word1_decomposed.size() - 1; i++){
     // termination conditions may need to be adjusted, check later**
-    if(word1_decomposed[i].front() > word1_decomposed[i+1].front() || 
+    if(word1_decomposed[i].front() > word1_decomposed[i+1].front() ||
        word1_decomposed[i+1].front() > word1_decomposed[i+1].back()  || //dummy condition (??)
        word1_decomposed[i+1].back() >= word1_decomposed[i].back() ) continue;
     // if the input reached here, it means 'i' is a worthy candidate
@@ -197,7 +201,7 @@ bool check_relation2(vector<int> word1, vector<int> word2){
         temp = update_decomposition(temp); //updating temp in case new towers are formed
         if(temp == word2_decomposed) return true;
       }
-    }  
+    }
   }
   // if 'true' is not returned up to this point, then such an 'i' satisfying all conditions do not exist
   return false;
@@ -215,37 +219,37 @@ vector<vector<int>>selection_sort(vector<vector<int>> word_decomposed, vector<in
   }
 
   auto temp = word_decomposed;
-  vector<vector<int>> result;  
+  vector<vector<int>> result;
   vector<int> initial_elements;
 
   //unwanted indexes should be removec starting from the biggest one
   //otherwise there will be problems
   if(unwanted_indexes.size() != 1){
     auto temp_unwanted = unwanted_indexes;
-    while(temp_unwanted.size() != 1){ 
-      auto max_unwanted = max_element(temp_unwanted.begin() + 1, temp_unwanted.end());
-      temp.erase(temp.begin() + *max_unwanted);
-      temp_unwanted.erase(max_unwanted);
+    sort(temp_unwanted.begin(), temp_unwanted.end());
+    // the first element will be "-1", do not use it in the loop
+    for(int i = temp_unwanted.size()-1; i > 0; i--){
+      temp.erase(temp.begin() + i);
     }
   }
 
   for(int i = 0; i < temp.size() - 1; i++) initial_elements.push_back(temp[i].front()); // we simply omit the last tower
   int b_s, b_s_index; // smallest element and the index of the right most tower starting with b_s
   b_s = *min_element(initial_elements.begin(), initial_elements.end());
-  
+
   for(int i = word_decomposed.size() - 2; i >= 0; i--){ //we do not check the last tower, even if it starts with the min element, we simply do not care
     if(word_decomposed[i].front() == b_s && find(unwanted_indexes.begin(), unwanted_indexes.end(), i) == unwanted_indexes.end()){
       b_s_index = i; break;
     }
   }
-  
+
   if(word_decomposed[b_s_index].back() < word_decomposed[b_s_index+1].front()){
     //swapping places of b_s and b_(s+1)
     word_decomposed.insert(word_decomposed.begin() + b_s_index, word_decomposed[b_s_index+1]);
     word_decomposed.erase(word_decomposed.begin() + b_s_index + 2); // removes the extra element in the old place
-    
+
     word_decomposed = update_decomposition(word_decomposed); //we update decomposition in case new towers are formed
-    
+
     //whether new towers formed or not, we always reset unwanted_indexes
     //after two elements changed places
     result = selection_sort(word_decomposed);
@@ -267,7 +271,7 @@ vector<vector<int>>insertion_sort(vector<vector<int>> word_decomposed){
     if(word_decomposed[i].front() <= word_decomposed[i+1].front()) break;
     if(i == word_decomposed.size() - 2) return word_decomposed;
   }
-  
+
   vector<vector<int>> result;
   int i_max; // greatest index with in(b_i) <= in(b_i+1)
   for(int i = word_decomposed.size() - 1; i >= 1; i--){
@@ -275,7 +279,7 @@ vector<vector<int>>insertion_sort(vector<vector<int>> word_decomposed){
       i_max = i-1; break;
     }
   }
-  
+
   vector<int> temp = {};
   for(int i = 0; i < word_decomposed[i_max+1].size(); i++) temp.push_back(word_decomposed[i_max+1][i] + 1); //creates b_i+1 tilda
   word_decomposed.insert(word_decomposed.begin() + i_max, temp);
@@ -299,7 +303,7 @@ vector<vector<int>>insertion_sort(vector<vector<int>> word_decomposed){
 
       //in case a new tower is formed, we update the decomposition
       word_decomposed = update_decomposition(word_decomposed);
-      
+
       bool continue_loop = true;
       for(int j = 0; j < word_decomposed.size() - 1; j++){
         if(word_decomposed[j].back() <= word_decomposed[j+1].front()) break;
@@ -307,7 +311,7 @@ vector<vector<int>>insertion_sort(vector<vector<int>> word_decomposed){
         //a natural basic word, so we just return it
         if(j == word_decomposed.size() - 2) continue_loop = false;
       }
-      //we exit the loop if a natural basic word is obtained       
+      //we exit the loop if a natural basic word is obtained
       if(!continue_loop) break;
     }
     result = insertion_sort(word_decomposed);
@@ -348,10 +352,10 @@ vector<vector<vector<int>>> passwords(int b, vector<vector<int>> word_decomposed
     temp = word_decomposed;
     vector<int> l1_tower = {track_seq[i]};
     temp.insert(temp.begin() + i, l1_tower);
-    temp = update_decomposition(temp);
+    //temp = update_decomposition(temp);
     result.push_back(temp);
-  } 
-  remove_duplicates3d(result);
+  }
+  //remove_duplicates3d(result);
   return result;
 }
 
@@ -360,7 +364,7 @@ vector<vector<vector<int>>> passwords(int b, vector<vector<int>> word_decomposed
 vector<vector<vector<int>>> passwords_union(vector<vector<int>> word1_decomposed, vector<vector<int>> word2_decomposed){
 
   vector<vector<vector<int>>> result = {word2_decomposed}; vector<vector<vector<int>>> temp;
-  
+
   vector<int> test_vec;
   // this concatenates word1 and word2
   for(int i = 0; i < word1_decomposed.size(); i++){
@@ -390,7 +394,7 @@ vector<vector<vector<int>>> passwords_union(vector<vector<int>> word1_decomposed
       result = temp; temp.clear();
     }
   }
-  result = remove_duplicates3d(result);
+  //result = remove_duplicates3d(result);
   return result;
 }
 
@@ -457,7 +461,7 @@ vector<vector<int>> restricted_shuffle(vector<vector<int>> word_decomposed){
     }
   result = temp; temp.clear();
   }
-  //result = remove_duplicates2d(result);
+  result = remove_duplicates2d(result);
   return result;
 }
 
@@ -466,7 +470,7 @@ vector<vector<int>> restricted_shuffle(vector<vector<int>> word_decomposed){
 vector<vector<int>> reduced_words(vector<vector<int>> word_decomposed){
   vector<vector<int>> word_natural;
   //the extreme case
-  if(word_decomposed.size() == 1) word_natural = word_decomposed; 
+  if(word_decomposed.size() == 1) word_natural = word_decomposed;
 
   //this is the unique natural word of the given reduced word
   else word_natural = insertion_sort(selection_sort(word_decomposed));
@@ -497,7 +501,7 @@ vector<vector<int>> standart_prompt(void){
       cout << "  The input should contain only numbers!\n";
       exit(0);
     }
-    else{ 
+    else{
       word1.push_back(temp_char - 48);
       temp_char = getc(stdin);
     }
@@ -511,7 +515,7 @@ vector<vector<int>> standart_prompt(void){
       cout << "  The input should contain only numbers!\n";
       exit(0);
     }
-    else{ 
+    else{
       word2.push_back(temp_char - 48);
       temp_char = getc(stdin);
     }
@@ -533,7 +537,7 @@ vector<int> word_prompt(void){
       cout << "  The input should contain only numbers!\n";
       exit(0);
     }
-    else{ 
+    else{
       word1.push_back(temp_char - 48);
       temp_char = getc(stdin);
     }
